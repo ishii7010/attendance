@@ -19,6 +19,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('work', 'worksController', ['only' => ['create', 'store', 'update']]);
+Route::resource('work', 'WorksController', ['only' => ['create', 'store', 'update']]);
+
+Route::get('/user/{id}', 'UsersController@show')->name('user_show');
 
 Auth::routes(['verify' => true]);
