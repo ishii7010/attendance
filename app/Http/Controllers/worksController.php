@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Work;
 use Carbon\Carbon;
 
-class worksController extends Controller
+class WorksController extends Controller
 {
     public function create()
     {
@@ -27,7 +27,9 @@ class worksController extends Controller
         $work->start_time = Carbon::now();
         if ($work->save())
         {
-            $user->update(['status' => 1]);
+
+            $user->status = 1;
+            $user->save();
             return redirect('work/create');
         }
         else {
@@ -41,7 +43,13 @@ class worksController extends Controller
         $work->end_time = Carbon::now();
         if ($work->save())
         {
-            $user->update(['status' => 0]);
+            $dt1 = new Carbon($work -> start_time);
+            $dt2 = new Carbon($work -> end_time);
+            $work->work_time = $dt1->diffInHours($dt2);
+            $work->save();
+            //eval(\Psy\sh());
+            $user->status = 0;
+            $user->save();
             return redirect('work/create');
         }
         else {

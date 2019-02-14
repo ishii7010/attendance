@@ -1,0 +1,26 @@
+@extends('layouts.app')
+
+@section('content')
+
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>勤務開始時間</th>
+            <th>勤務終了時間</th>
+            <th>勤務時間</th>
+        </tr>
+    </thead>
+    @foreach ($works AS $work)
+    <tbody>
+        <tr>
+            <td class="start_work">{{ $work->start_time }}</td>
+            <td class="end_work">{{ $work->end_time }}</td>
+            <td class="work_time">{{ $work->work_time }}分</td>
+        </tr>
+    </tbody>
+    @endforeach
+</table>
+
+<a href="{{ url('work/create') }}">{{ "打刻" }}</a>
+@endsection
