@@ -17,10 +17,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
-Route::resource('work', 'WorksController', ['only' => ['create', 'store', 'update']]);
+Route::resource('work', 'WorksController', ['only' => ['create', 'store', 'update']])->middleware('auth');
 
-Route::get('/user/{id}', 'UsersController@show')->name('user_show');
+Route::get('/user/{id}', 'UsersController@show')->name('user_show')->middleware('auth');
+
+Route::post('/rest', 'RestsController@store')->name('rest_create')->middleware('auth');
+
+Route::put('/rest/{id}', 'RestsController@update')->name('rest_update')->middleware('auth');
 
 Auth::routes(['verify' => true]);

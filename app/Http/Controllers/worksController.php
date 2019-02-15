@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Work;
+use App\Rest;
+use App\WorkHour;
 use Carbon\Carbon;
 
 class WorksController extends Controller
@@ -16,7 +18,12 @@ class WorksController extends Controller
         {
             $work = $user->works->last();
         }
-        return view('work.create', compact('user', 'work'));
+
+        if ($user->rest_status == 1)
+        {
+            $rest = $work->rest;
+        }
+        return view('work.create', compact('user', 'work', 'rest'));
     }
 
     public function store()
@@ -24,11 +31,14 @@ class WorksController extends Controller
         $user = \Auth::user();
         $work = new Work;
         $work->user_id = $user->id;
-        $work->start_time = Carbon::now();
+        $dt = Carbon::now();
+        $work->start_time = $dt;
+        $work->work_day = $dt->format('Y年m月d日');
         if ($work->save())
         {
 
             $user->status = 1;
+            $user->rest_status = 0;
             $user->save();
             return redirect('work/create');
         }
@@ -50,6 +60,14 @@ class WorksController extends Controller
             //eval(\Psy\sh());
             $user->status = 0;
             $user->save();
+            if ($work->rest->count() == 1)
+            {
+                $work_hour = new WorkHour;
+                $work_hour->user_id = $user->id;
+                $rest = $work->rest;
+                $work_hour->work_hour = $work->work_time - $rest->rest_time;
+                $work_hour->save();
+            }
             return redirect('work/create');
         }
         else {
