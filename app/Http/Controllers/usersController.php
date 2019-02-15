@@ -25,9 +25,6 @@ class UsersController extends Controller
         ->where('w1.user_id', $id)
         ->groupBy('w1.work_day')
         ->get();
-
-        //$rest = $works->rest;
-
         return view('user.show', compact('user', 'works'));
     }
 }
