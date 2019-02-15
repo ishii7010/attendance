@@ -60,13 +60,12 @@ class WorksController extends Controller
             //eval(\Psy\sh());
             $user->status = 0;
             $user->save();
+
             if ($work->rest->count() == 1)
             {
-                $work_hour = new WorkHour;
-                $work_hour->user_id = $user->id;
                 $rest = $work->rest;
-                $work_hour->work_hour = $work->work_time - $rest->rest_time;
-                $work_hour->save();
+                $work->work_hour = $work->work_time - $rest->rest_time;
+                $work->save();
             }
             return redirect('work/create');
         }
