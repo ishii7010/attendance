@@ -19,26 +19,26 @@
                 {{ csrf_field() }}
                 <div class="button-posi"><button type="submit" name="submit" class="button1">{{ __('出勤') }}</button></div>
             </form>
-         @else
+         @elseif ($user->status == 1 and $user->rest_status == 2)
              <form action="{{ url('work/'.$work->id) }}" method="POST">
                  {{ csrf_field() }}
                  @method('PUT')
                  <div class="button-posi"><button type="submit" name="submit" class="button2">{{ __('退勤') }}</button></div>
              </form>
+         @endif
 
-             @if ($user->rest_status == 0)
-                <form action="{{ url('rest') }}" method="post">
-                    {{ csrf_field() }}
-                    <button type="submit" name="submit" class="butto">{{ __('休憩') }}</button>
-                </form>
-             @elseif ($user->rest_status == 1)
-                <form action="{{ url('rest/'.$rest->id) }}" method="POST">
-                    {{ csrf_field() }}
-                    @method('PUT')
-                    <div class="button-posi"><button type="submit" name="submit" class="but">{{ __('終了') }}</button></div>
-                </form>
-             @else
-             @endif
+         @if ($user->status == 1 and $user->rest_status == 0)
+            <form action="{{ url('rest') }}" method="post">
+                {{ csrf_field() }}
+                <div class="button-posi"><button type="submit" name="submit" class="button1">{{ __('休憩') }}</button></div>
+            </form>
+         @elseif ($user->status == 1 and $user->rest_status == 1)
+            <form action="{{ url('rest/'.$rest->id) }}" method="POST">
+                {{ csrf_field() }}
+                @method('PUT')
+                <div class="button-posi"><button type="submit" name="submit" class="button2">{{ __('終了') }}</button></div>
+            </form>
+         @else
          @endif
 
          <button class="user-show clearfix"><a href="{{ url('user/'.$user->id) }}">{{ "勤怠" }}</a></button>
