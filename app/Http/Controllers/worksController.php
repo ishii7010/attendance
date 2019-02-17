@@ -36,7 +36,6 @@ class WorksController extends Controller
         $work->work_day = $dt->format('Y年m月d日');
         if ($work->save())
         {
-
             $user->status = 1;
             $user->rest_status = 0;
             $user->save();

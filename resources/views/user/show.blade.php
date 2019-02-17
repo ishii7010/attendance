@@ -18,7 +18,7 @@
             <td class="start_work">{{ $work->start_time }}</td>
             <td class="end_work">{{ $work->end_time }}</td>
             <td class="work_time">{{ $work->work_time }}分</td>
-            <td class="rest_time">{{ $work->work_hour }}分</td>
+            <td class="rest_time">{{ $work->rest_time }}分</td>
             <td class="work_hour">{{ $work->work_hour }}分</td>
         </tr>
     </tbody>
